@@ -51,7 +51,7 @@ public class LoginTest {
     @Test
     public void InvalidPasswordTest() {
         loginPage.enterUsername("tomsmith");
-        loginPage.enterPassword("SuperSecretPassword!");
+        loginPage.enterPassword("newtoPassword!");
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
@@ -68,6 +68,17 @@ public class LoginTest {
         String msg = loginPage.getMessage();
 
         Assert.assertTrue(msg.contains("Your username is invalid!"));
+    }
+
+    //TC_05 - Empty Password
+    @Test
+    public void emptyPasswordTest(){
+        loginPage.enterUsername("tomsmith");
+        loginPage.enterPassword("");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+        Assert.assertTrue(msg.contains("Your password is invalid!"));
     }
     @AfterMethod
     public void teardown() {
