@@ -21,6 +21,7 @@ public class LoginTest {
         loginPage = new LoginPage(driver);
     }
 
+    //TC_01 - Valid Login
     @Test
     public void validLoginTest() {
 
@@ -33,6 +34,7 @@ public class LoginTest {
         Assert.assertTrue(msg.contains("You logged into a secure area!"));
     }
 
+    //TC_03 - Invalid Username
     @Test
     public void invalidLoginTest() {
 
@@ -45,6 +47,18 @@ public class LoginTest {
         Assert.assertTrue(msg.contains("Your username is invalid!"));
     }
 
+    //TC_02 - Invalid Password
+    @Test
+    public void InvalidPasswordTest() {
+        loginPage.enterUsername("tomsmith");
+        loginPage.enterPassword("SuperSecretPassword!");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+        Assert.assertTrue(msg.contains("Your password is invalid!"));
+    }
+
+    //TC_04 - Empty Fields
     @Test
     public void emptyLoginTest() {
         loginPage.enterUsername("");
