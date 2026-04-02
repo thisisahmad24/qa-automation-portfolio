@@ -45,6 +45,16 @@ public class LoginTest {
         Assert.assertTrue(msg.contains("Your username is invalid!"));
     }
 
+    @Test
+    public void emptyLoginTest() {
+        loginPage.enterUsername("");
+        loginPage.enterPassword("");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+
+        Assert.assertTrue(msg.contains("Your username is invalid!"));
+    }
     @AfterMethod
     public void teardown() {
         driver.quit();
