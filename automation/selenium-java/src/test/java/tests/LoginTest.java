@@ -16,12 +16,13 @@ public class LoginTest {
     public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        driver.manage().window().maximize(); // ✅ stability improvement
         driver.get("https://the-internet.herokuapp.com/login");
 
         loginPage = new LoginPage(driver);
     }
 
-    //TC_01 - Valid Login
+    // TC_01 - Valid Login
     @Test
     public void validLoginTest() {
 
@@ -30,11 +31,10 @@ public class LoginTest {
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
-
         Assert.assertTrue(msg.contains("You logged into a secure area!"));
     }
 
-    //TC_03 - Invalid Username
+    // TC_02 - Invalid Username
     @Test
     public void invalidLoginTest() {
 
@@ -43,36 +43,37 @@ public class LoginTest {
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
-
         Assert.assertTrue(msg.contains("Your username is invalid!"));
     }
 
-    //TC_02 - Invalid Password
+    // TC_03 - Invalid Password
     @Test
-    public void InvalidPasswordTest() {
+    public void invalidPasswordTest() {
+
         loginPage.enterUsername("tomsmith");
-        loginPage.enterPassword("newtoPassword!");
+        loginPage.enterPassword("wrongPassword");
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
         Assert.assertTrue(msg.contains("Your password is invalid!"));
     }
 
-    //TC_04 - Empty Fields
+    // TC_04 - Empty Fields
     @Test
     public void emptyLoginTest() {
+
         loginPage.enterUsername("");
         loginPage.enterPassword("");
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
-
         Assert.assertTrue(msg.contains("Your username is invalid!"));
     }
 
-    //TC_05 - Empty Password
+    // TC_05 - Empty Password
     @Test
-    public void emptyPasswordTest(){
+    public void emptyPasswordTest() {
+
         loginPage.enterUsername("tomsmith");
         loginPage.enterPassword("");
         loginPage.clickLogin();
@@ -80,6 +81,19 @@ public class LoginTest {
         String msg = loginPage.getMessage();
         Assert.assertTrue(msg.contains("Your password is invalid!"));
     }
+
+    // TC_06 - Special Characters (treated as invalid username)
+    @Test
+    public void specialCharactersTest() {
+
+        loginPage.enterUsername("tom@smith");
+        loginPage.enterPassword("SuperSecretPassword!");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+        Assert.assertTrue(msg.contains("Your username is invalid!")); // ✅ FIXED
+    }
+
     @AfterMethod
     public void teardown() {
         driver.quit();
