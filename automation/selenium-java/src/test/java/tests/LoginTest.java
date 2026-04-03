@@ -105,6 +105,18 @@ public class LoginTest {
         Assert.assertTrue(msg.contains("System should handle input properly"));
     }
 
+    //TC_08 - SQL Injection Attempt
+    @Test
+    public void SqlInjectionTest() {
+        loginPage.enterUsername("' OR '1'='1");
+        loginPage.enterPassword("anything");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+        Assert.assertTrue(msg.contains("Your username is invalid!"));
+
+    }
+
     @AfterMethod
     public void teardown() {
         driver.quit();
