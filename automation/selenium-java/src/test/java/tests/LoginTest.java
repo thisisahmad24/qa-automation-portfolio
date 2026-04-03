@@ -102,7 +102,7 @@ public class LoginTest {
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
-        Assert.assertTrue(msg.contains("Your username is invalid!"));
+        Assert.assertTrue(msg.contains("System should handle input properly"));
     }
 
     @AfterMethod
