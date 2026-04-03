@@ -117,6 +117,17 @@ public class LoginTest {
 
     }
 
+    //TC_09 - Case Sensitivity
+    @Test
+    public void CaseInsensitiveTest() {
+        loginPage.enterUsername("TOMSMITH");
+        loginPage.enterPassword("SuperSecretPassword!");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+        Assert.assertTrue(msg.contains("Your username is invalid!"));
+    }
+
     @AfterMethod
     public void teardown() {
         driver.quit();
