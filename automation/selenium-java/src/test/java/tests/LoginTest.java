@@ -16,7 +16,7 @@ public class LoginTest {
     public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.manage().window().maximize(); // ✅ stability improvement
+        driver.manage().window().maximize();
         driver.get("https://the-internet.herokuapp.com/login");
 
         loginPage = new LoginPage(driver);
@@ -91,7 +91,18 @@ public class LoginTest {
         loginPage.clickLogin();
 
         String msg = loginPage.getMessage();
-        Assert.assertTrue(msg.contains("Your username is invalid!")); // ✅ FIXED
+        Assert.assertTrue(msg.contains("Your username is invalid!"));
+    }
+
+    //TC_07 - Long Input
+    @Test
+    public void longUsernameTest() {
+        loginPage.enterUsername("tommmmmmmmmmmmmmmmsmmmmmmmmmmmmmmmmmmmith");
+        loginPage.enterPassword("SuperSecretPassword!");
+        loginPage.clickLogin();
+
+        String msg = loginPage.getMessage();
+        Assert.assertTrue(msg.contains("Your username is invalid!"));
     }
 
     @AfterMethod
