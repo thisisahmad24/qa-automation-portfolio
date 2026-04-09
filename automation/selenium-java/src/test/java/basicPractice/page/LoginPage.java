@@ -1,4 +1,4 @@
-package BasicPractice.page;
+package basicPractice.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
